@@ -1,0 +1,919 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище EquipmentRepairDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="additional_specialists">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="request_id" Type="int" Nullable="false" />
+          <Property Name="specialist_user_id" Type="int" Nullable="false" />
+          <Property Name="assigned_by_manager_id" Type="int" Nullable="false" />
+          <Property Name="assigned_at" Type="datetime" />
+          <Property Name="reason" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="deadline_extensions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="request_id" Type="int" Nullable="false" />
+          <Property Name="old_deadline" Type="date" Nullable="false" />
+          <Property Name="new_deadline" Type="date" Nullable="false" />
+          <Property Name="extension_reason" Type="nvarchar(max)" />
+          <Property Name="manager_id" Type="int" Nullable="false" />
+          <Property Name="client_agreed" Type="bit" />
+          <Property Name="client_agreement_date" Type="datetime" />
+          <Property Name="created_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="equipment_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="fault_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="typical_duration_hours" Type="int" />
+        </EntityType>
+        <EntityType Name="repair_requests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="request_number" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="equipment_type_id" Type="int" Nullable="false" />
+          <Property Name="equipment_serial" Type="nvarchar" MaxLength="100" />
+          <Property Name="fault_type_id" Type="int" Nullable="false" />
+          <Property Name="problem_description" Type="nvarchar(max)" />
+          <Property Name="client_id" Type="int" Nullable="false" />
+          <Property Name="assigned_executor_id" Type="int" />
+          <Property Name="status" Type="nvarchar" MaxLength="20" />
+          <Property Name="priority" Type="nvarchar" MaxLength="20" />
+          <Property Name="planned_deadline" Type="date" />
+          <Property Name="actual_completion_date" Type="datetime" />
+          <Property Name="created_by_user_id" Type="int" Nullable="false" />
+          <Property Name="updated_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="request_comments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="request_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="comment_text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="created_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="service_feedbacks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="request_id" Type="int" Nullable="false" />
+          <Property Name="rating" Type="int" />
+          <Property Name="comment" Type="nvarchar(max)" />
+          <Property Name="qr_code_generated" Type="bit" />
+          <Property Name="qr_code_url" Type="nvarchar" MaxLength="255" />
+          <Property Name="google_form_url" Type="nvarchar" MaxLength="500" />
+          <Property Name="feedback_received" Type="bit" />
+          <Property Name="feedback_date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="password_hash" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="full_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="role_id" Type="int" Nullable="false" />
+          <Property Name="is_active" Type="bit" />
+          <Property Name="created_at" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__additiona__assig__59063A47">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="additional_specialists" Type="Self.additional_specialists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="additional_specialists">
+              <PropertyRef Name="assigned_by_manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__additiona__reque__59FA5E80">
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="additional_specialists" Type="Self.additional_specialists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="repair_requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="additional_specialists">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__additiona__speci__5AEE82B9">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="additional_specialists" Type="Self.additional_specialists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="additional_specialists">
+              <PropertyRef Name="specialist_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__deadline___manag__5BE2A6F2">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="deadline_extensions" Type="Self.deadline_extensions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="deadline_extensions">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__deadline___reque__5CD6CB2B">
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="deadline_extensions" Type="Self.deadline_extensions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="repair_requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="deadline_extensions">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__repair_re__assig__5DCAEF64">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="repair_requests">
+              <PropertyRef Name="assigned_executor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__repair_re__clien__5EBF139D">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="repair_requests">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__repair_re__creat__5FB337D6">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="repair_requests">
+              <PropertyRef Name="created_by_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__repair_re__equip__60A75C0F">
+          <End Role="equipment_types" Type="Self.equipment_types" Multiplicity="1" />
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="equipment_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="repair_requests">
+              <PropertyRef Name="equipment_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__repair_re__fault__619B8048">
+          <End Role="fault_types" Type="Self.fault_types" Multiplicity="1" />
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fault_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="repair_requests">
+              <PropertyRef Name="fault_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__request_c__reque__628FA481">
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="request_comments" Type="Self.request_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="repair_requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="request_comments">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__request_c__user___6383C8BA">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="request_comments" Type="Self.request_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="request_comments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__service_f__reque__6477ECF3">
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="service_feedbacks" Type="Self.service_feedbacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="repair_requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="service_feedbacks">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__role_id__656C112C">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище EquipmentRepairDBModelContainer">
+          <EntitySet Name="additional_specialists" EntityType="Self.additional_specialists" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="deadline_extensions" EntityType="Self.deadline_extensions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="equipment_types" EntityType="Self.equipment_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="fault_types" EntityType="Self.fault_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="repair_requests" EntityType="Self.repair_requests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="request_comments" EntityType="Self.request_comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="service_feedbacks" EntityType="Self.service_feedbacks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__additiona__assig__59063A47" Association="Self.FK__additiona__assig__59063A47">
+            <End Role="users" EntitySet="users" />
+            <End Role="additional_specialists" EntitySet="additional_specialists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__additiona__reque__59FA5E80" Association="Self.FK__additiona__reque__59FA5E80">
+            <End Role="repair_requests" EntitySet="repair_requests" />
+            <End Role="additional_specialists" EntitySet="additional_specialists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__additiona__speci__5AEE82B9" Association="Self.FK__additiona__speci__5AEE82B9">
+            <End Role="users" EntitySet="users" />
+            <End Role="additional_specialists" EntitySet="additional_specialists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__deadline___manag__5BE2A6F2" Association="Self.FK__deadline___manag__5BE2A6F2">
+            <End Role="users" EntitySet="users" />
+            <End Role="deadline_extensions" EntitySet="deadline_extensions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__deadline___reque__5CD6CB2B" Association="Self.FK__deadline___reque__5CD6CB2B">
+            <End Role="repair_requests" EntitySet="repair_requests" />
+            <End Role="deadline_extensions" EntitySet="deadline_extensions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__repair_re__assig__5DCAEF64" Association="Self.FK__repair_re__assig__5DCAEF64">
+            <End Role="users" EntitySet="users" />
+            <End Role="repair_requests" EntitySet="repair_requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__repair_re__clien__5EBF139D" Association="Self.FK__repair_re__clien__5EBF139D">
+            <End Role="users" EntitySet="users" />
+            <End Role="repair_requests" EntitySet="repair_requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__repair_re__creat__5FB337D6" Association="Self.FK__repair_re__creat__5FB337D6">
+            <End Role="users" EntitySet="users" />
+            <End Role="repair_requests" EntitySet="repair_requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__repair_re__equip__60A75C0F" Association="Self.FK__repair_re__equip__60A75C0F">
+            <End Role="equipment_types" EntitySet="equipment_types" />
+            <End Role="repair_requests" EntitySet="repair_requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__repair_re__fault__619B8048" Association="Self.FK__repair_re__fault__619B8048">
+            <End Role="fault_types" EntitySet="fault_types" />
+            <End Role="repair_requests" EntitySet="repair_requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__request_c__reque__628FA481" Association="Self.FK__request_c__reque__628FA481">
+            <End Role="repair_requests" EntitySet="repair_requests" />
+            <End Role="request_comments" EntitySet="request_comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__request_c__user___6383C8BA" Association="Self.FK__request_c__user___6383C8BA">
+            <End Role="users" EntitySet="users" />
+            <End Role="request_comments" EntitySet="request_comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__service_f__reque__6477ECF3" Association="Self.FK__service_f__reque__6477ECF3">
+            <End Role="repair_requests" EntitySet="repair_requests" />
+            <End Role="service_feedbacks" EntitySet="service_feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__role_id__656C112C" Association="Self.FK__users__role_id__656C112C">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EquipmentRepairDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="additional_specialists">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="request_id" Type="Int32" Nullable="false" />
+          <Property Name="specialist_user_id" Type="Int32" Nullable="false" />
+          <Property Name="assigned_by_manager_id" Type="Int32" Nullable="false" />
+          <Property Name="assigned_at" Type="DateTime" Precision="3" />
+          <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="users" Relationship="Self.FK__additiona__assig__59063A47" FromRole="additional_specialists" ToRole="users" />
+          <NavigationProperty Name="repair_requests" Relationship="Self.FK__additiona__reque__59FA5E80" FromRole="additional_specialists" ToRole="repair_requests" />
+          <NavigationProperty Name="users1" Relationship="Self.FK__additiona__speci__5AEE82B9" FromRole="additional_specialists" ToRole="users" />
+        </EntityType>
+        <EntityType Name="deadline_extensions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="request_id" Type="Int32" Nullable="false" />
+          <Property Name="old_deadline" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="new_deadline" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="extension_reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="manager_id" Type="Int32" Nullable="false" />
+          <Property Name="client_agreed" Type="Boolean" />
+          <Property Name="client_agreement_date" Type="DateTime" Precision="3" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="users" Relationship="Self.FK__deadline___manag__5BE2A6F2" FromRole="deadline_extensions" ToRole="users" />
+          <NavigationProperty Name="repair_requests" Relationship="Self.FK__deadline___reque__5CD6CB2B" FromRole="deadline_extensions" ToRole="repair_requests" />
+        </EntityType>
+        <EntityType Name="equipment_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="repair_requests" Relationship="Self.FK__repair_re__equip__60A75C0F" FromRole="equipment_types" ToRole="repair_requests" />
+        </EntityType>
+        <EntityType Name="fault_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="typical_duration_hours" Type="Int32" />
+          <NavigationProperty Name="repair_requests" Relationship="Self.FK__repair_re__fault__619B8048" FromRole="fault_types" ToRole="repair_requests" />
+        </EntityType>
+        <EntityType Name="repair_requests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="request_number" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="equipment_type_id" Type="Int32" Nullable="false" />
+          <Property Name="equipment_serial" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="fault_type_id" Type="Int32" Nullable="false" />
+          <Property Name="problem_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="client_id" Type="Int32" Nullable="false" />
+          <Property Name="assigned_executor_id" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="priority" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="planned_deadline" Type="DateTime" Precision="0" />
+          <Property Name="actual_completion_date" Type="DateTime" Precision="3" />
+          <Property Name="created_by_user_id" Type="Int32" Nullable="false" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="additional_specialists" Relationship="Self.FK__additiona__reque__59FA5E80" FromRole="repair_requests" ToRole="additional_specialists" />
+          <NavigationProperty Name="deadline_extensions" Relationship="Self.FK__deadline___reque__5CD6CB2B" FromRole="repair_requests" ToRole="deadline_extensions" />
+          <NavigationProperty Name="equipment_types" Relationship="Self.FK__repair_re__equip__60A75C0F" FromRole="repair_requests" ToRole="equipment_types" />
+          <NavigationProperty Name="fault_types" Relationship="Self.FK__repair_re__fault__619B8048" FromRole="repair_requests" ToRole="fault_types" />
+          <NavigationProperty Name="users" Relationship="Self.FK__repair_re__assig__5DCAEF64" FromRole="repair_requests" ToRole="users" />
+          <NavigationProperty Name="users1" Relationship="Self.FK__repair_re__clien__5EBF139D" FromRole="repair_requests" ToRole="users" />
+          <NavigationProperty Name="users2" Relationship="Self.FK__repair_re__creat__5FB337D6" FromRole="repair_requests" ToRole="users" />
+          <NavigationProperty Name="request_comments" Relationship="Self.FK__request_c__reque__628FA481" FromRole="repair_requests" ToRole="request_comments" />
+          <NavigationProperty Name="service_feedbacks" Relationship="Self.FK__service_f__reque__6477ECF3" FromRole="repair_requests" ToRole="service_feedbacks" />
+        </EntityType>
+        <EntityType Name="request_comments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="request_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="comment_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="repair_requests" Relationship="Self.FK__request_c__reque__628FA481" FromRole="request_comments" ToRole="repair_requests" />
+          <NavigationProperty Name="users" Relationship="Self.FK__request_c__user___6383C8BA" FromRole="request_comments" ToRole="users" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="users" Relationship="Self.FK__users__role_id__656C112C" FromRole="roles" ToRole="users" />
+        </EntityType>
+        <EntityType Name="service_feedbacks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="request_id" Type="Int32" Nullable="false" />
+          <Property Name="rating" Type="Int32" />
+          <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="qr_code_generated" Type="Boolean" />
+          <Property Name="qr_code_url" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="google_form_url" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="feedback_received" Type="Boolean" />
+          <Property Name="feedback_date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="repair_requests" Relationship="Self.FK__service_f__reque__6477ECF3" FromRole="service_feedbacks" ToRole="repair_requests" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password_hash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="full_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <Property Name="is_active" Type="Boolean" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="additional_specialists" Relationship="Self.FK__additiona__assig__59063A47" FromRole="users" ToRole="additional_specialists" />
+          <NavigationProperty Name="additional_specialists1" Relationship="Self.FK__additiona__speci__5AEE82B9" FromRole="users" ToRole="additional_specialists" />
+          <NavigationProperty Name="deadline_extensions" Relationship="Self.FK__deadline___manag__5BE2A6F2" FromRole="users" ToRole="deadline_extensions" />
+          <NavigationProperty Name="repair_requests" Relationship="Self.FK__repair_re__assig__5DCAEF64" FromRole="users" ToRole="repair_requests" />
+          <NavigationProperty Name="repair_requests1" Relationship="Self.FK__repair_re__clien__5EBF139D" FromRole="users" ToRole="repair_requests" />
+          <NavigationProperty Name="repair_requests2" Relationship="Self.FK__repair_re__creat__5FB337D6" FromRole="users" ToRole="repair_requests" />
+          <NavigationProperty Name="request_comments" Relationship="Self.FK__request_c__user___6383C8BA" FromRole="users" ToRole="request_comments" />
+          <NavigationProperty Name="roles" Relationship="Self.FK__users__role_id__656C112C" FromRole="users" ToRole="roles" />
+        </EntityType>
+        <Association Name="FK__additiona__assig__59063A47">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="additional_specialists" Type="Self.additional_specialists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="additional_specialists">
+              <PropertyRef Name="assigned_by_manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__additiona__reque__59FA5E80">
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="additional_specialists" Type="Self.additional_specialists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="repair_requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="additional_specialists">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__additiona__speci__5AEE82B9">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="additional_specialists" Type="Self.additional_specialists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="additional_specialists">
+              <PropertyRef Name="specialist_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__deadline___manag__5BE2A6F2">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="deadline_extensions" Type="Self.deadline_extensions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="deadline_extensions">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__deadline___reque__5CD6CB2B">
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="deadline_extensions" Type="Self.deadline_extensions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="repair_requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="deadline_extensions">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__repair_re__equip__60A75C0F">
+          <End Role="equipment_types" Type="Self.equipment_types" Multiplicity="1" />
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="equipment_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="repair_requests">
+              <PropertyRef Name="equipment_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__repair_re__fault__619B8048">
+          <End Role="fault_types" Type="Self.fault_types" Multiplicity="1" />
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fault_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="repair_requests">
+              <PropertyRef Name="fault_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__repair_re__assig__5DCAEF64">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="repair_requests">
+              <PropertyRef Name="assigned_executor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__repair_re__clien__5EBF139D">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="repair_requests">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__repair_re__creat__5FB337D6">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="repair_requests">
+              <PropertyRef Name="created_by_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__request_c__reque__628FA481">
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="request_comments" Type="Self.request_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="repair_requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="request_comments">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__service_f__reque__6477ECF3">
+          <End Role="repair_requests" Type="Self.repair_requests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="service_feedbacks" Type="Self.service_feedbacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="repair_requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="service_feedbacks">
+              <PropertyRef Name="request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__request_c__user___6383C8BA">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="request_comments" Type="Self.request_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="request_comments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__role_id__656C112C">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EquipmentRepairDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="additional_specialists" EntityType="Self.additional_specialists" />
+          <EntitySet Name="deadline_extensions" EntityType="Self.deadline_extensions" />
+          <EntitySet Name="equipment_types" EntityType="Self.equipment_types" />
+          <EntitySet Name="fault_types" EntityType="Self.fault_types" />
+          <EntitySet Name="repair_requests" EntityType="Self.repair_requests" />
+          <EntitySet Name="request_comments" EntityType="Self.request_comments" />
+          <EntitySet Name="roles" EntityType="Self.roles" />
+          <EntitySet Name="service_feedbacks" EntityType="Self.service_feedbacks" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <AssociationSet Name="FK__additiona__assig__59063A47" Association="Self.FK__additiona__assig__59063A47">
+            <End Role="users" EntitySet="users" />
+            <End Role="additional_specialists" EntitySet="additional_specialists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__additiona__reque__59FA5E80" Association="Self.FK__additiona__reque__59FA5E80">
+            <End Role="repair_requests" EntitySet="repair_requests" />
+            <End Role="additional_specialists" EntitySet="additional_specialists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__additiona__speci__5AEE82B9" Association="Self.FK__additiona__speci__5AEE82B9">
+            <End Role="users" EntitySet="users" />
+            <End Role="additional_specialists" EntitySet="additional_specialists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__deadline___manag__5BE2A6F2" Association="Self.FK__deadline___manag__5BE2A6F2">
+            <End Role="users" EntitySet="users" />
+            <End Role="deadline_extensions" EntitySet="deadline_extensions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__deadline___reque__5CD6CB2B" Association="Self.FK__deadline___reque__5CD6CB2B">
+            <End Role="repair_requests" EntitySet="repair_requests" />
+            <End Role="deadline_extensions" EntitySet="deadline_extensions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__repair_re__equip__60A75C0F" Association="Self.FK__repair_re__equip__60A75C0F">
+            <End Role="equipment_types" EntitySet="equipment_types" />
+            <End Role="repair_requests" EntitySet="repair_requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__repair_re__fault__619B8048" Association="Self.FK__repair_re__fault__619B8048">
+            <End Role="fault_types" EntitySet="fault_types" />
+            <End Role="repair_requests" EntitySet="repair_requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__repair_re__assig__5DCAEF64" Association="Self.FK__repair_re__assig__5DCAEF64">
+            <End Role="users" EntitySet="users" />
+            <End Role="repair_requests" EntitySet="repair_requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__repair_re__clien__5EBF139D" Association="Self.FK__repair_re__clien__5EBF139D">
+            <End Role="users" EntitySet="users" />
+            <End Role="repair_requests" EntitySet="repair_requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__repair_re__creat__5FB337D6" Association="Self.FK__repair_re__creat__5FB337D6">
+            <End Role="users" EntitySet="users" />
+            <End Role="repair_requests" EntitySet="repair_requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__request_c__reque__628FA481" Association="Self.FK__request_c__reque__628FA481">
+            <End Role="repair_requests" EntitySet="repair_requests" />
+            <End Role="request_comments" EntitySet="request_comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__service_f__reque__6477ECF3" Association="Self.FK__service_f__reque__6477ECF3">
+            <End Role="repair_requests" EntitySet="repair_requests" />
+            <End Role="service_feedbacks" EntitySet="service_feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__request_c__user___6383C8BA" Association="Self.FK__request_c__user___6383C8BA">
+            <End Role="users" EntitySet="users" />
+            <End Role="request_comments" EntitySet="request_comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__role_id__656C112C" Association="Self.FK__users__role_id__656C112C">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище EquipmentRepairDBModelContainer" CdmEntityContainer="EquipmentRepairDBEntities">
+          <EntitySetMapping Name="additional_specialists">
+            <EntityTypeMapping TypeName="EquipmentRepairDBModel.additional_specialists">
+              <MappingFragment StoreEntitySet="additional_specialists">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="request_id" ColumnName="request_id" />
+                <ScalarProperty Name="specialist_user_id" ColumnName="specialist_user_id" />
+                <ScalarProperty Name="assigned_by_manager_id" ColumnName="assigned_by_manager_id" />
+                <ScalarProperty Name="assigned_at" ColumnName="assigned_at" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="deadline_extensions">
+            <EntityTypeMapping TypeName="EquipmentRepairDBModel.deadline_extensions">
+              <MappingFragment StoreEntitySet="deadline_extensions">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="request_id" ColumnName="request_id" />
+                <ScalarProperty Name="old_deadline" ColumnName="old_deadline" />
+                <ScalarProperty Name="new_deadline" ColumnName="new_deadline" />
+                <ScalarProperty Name="extension_reason" ColumnName="extension_reason" />
+                <ScalarProperty Name="manager_id" ColumnName="manager_id" />
+                <ScalarProperty Name="client_agreed" ColumnName="client_agreed" />
+                <ScalarProperty Name="client_agreement_date" ColumnName="client_agreement_date" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="equipment_types">
+            <EntityTypeMapping TypeName="EquipmentRepairDBModel.equipment_types">
+              <MappingFragment StoreEntitySet="equipment_types">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fault_types">
+            <EntityTypeMapping TypeName="EquipmentRepairDBModel.fault_types">
+              <MappingFragment StoreEntitySet="fault_types">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="typical_duration_hours" ColumnName="typical_duration_hours" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="repair_requests">
+            <EntityTypeMapping TypeName="EquipmentRepairDBModel.repair_requests">
+              <MappingFragment StoreEntitySet="repair_requests">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="request_number" ColumnName="request_number" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="equipment_type_id" ColumnName="equipment_type_id" />
+                <ScalarProperty Name="equipment_serial" ColumnName="equipment_serial" />
+                <ScalarProperty Name="fault_type_id" ColumnName="fault_type_id" />
+                <ScalarProperty Name="problem_description" ColumnName="problem_description" />
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="assigned_executor_id" ColumnName="assigned_executor_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="priority" ColumnName="priority" />
+                <ScalarProperty Name="planned_deadline" ColumnName="planned_deadline" />
+                <ScalarProperty Name="actual_completion_date" ColumnName="actual_completion_date" />
+                <ScalarProperty Name="created_by_user_id" ColumnName="created_by_user_id" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="request_comments">
+            <EntityTypeMapping TypeName="EquipmentRepairDBModel.request_comments">
+              <MappingFragment StoreEntitySet="request_comments">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="request_id" ColumnName="request_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="comment_text" ColumnName="comment_text" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="EquipmentRepairDBModel.roles">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="service_feedbacks">
+            <EntityTypeMapping TypeName="EquipmentRepairDBModel.service_feedbacks">
+              <MappingFragment StoreEntitySet="service_feedbacks">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="request_id" ColumnName="request_id" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="qr_code_generated" ColumnName="qr_code_generated" />
+                <ScalarProperty Name="qr_code_url" ColumnName="qr_code_url" />
+                <ScalarProperty Name="google_form_url" ColumnName="google_form_url" />
+                <ScalarProperty Name="feedback_received" ColumnName="feedback_received" />
+                <ScalarProperty Name="feedback_date" ColumnName="feedback_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="EquipmentRepairDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="EquipmentRepairDBModel.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password_hash" ColumnName="password_hash" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

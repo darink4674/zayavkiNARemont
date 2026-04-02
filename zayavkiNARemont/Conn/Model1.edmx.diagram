@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="eef394abece34d54bda295822b76d07c" Name="Diagram1">
+        <EntityTypeShape EntityType="EquipmentRepairDBModel.additional_specialists" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentRepairDBModel.deadline_extensions" Width="1.5" PointX="8.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentRepairDBModel.equipment_types" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentRepairDBModel.fault_types" Width="1.5" PointX="3" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentRepairDBModel.repair_requests" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentRepairDBModel.request_comments" Width="1.5" PointX="10.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentRepairDBModel.roles" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentRepairDBModel.service_feedbacks" Width="1.5" PointX="7.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentRepairDBModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentRepairDBModel.users" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__additiona__assig__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__additiona__reque__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__additiona__speci__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__deadline___manag__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__deadline___reque__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__repair_re__equip__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__repair_re__fault__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__repair_re__assig__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__repair_re__clien__5EBF139D" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__repair_re__creat__5FB337D6" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__request_c__reque__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__service_f__reque__6477ECF3" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__request_c__user___6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentRepairDBModel.FK__users__role_id__656C112C" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

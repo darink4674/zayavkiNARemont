@@ -1,0 +1,81 @@
+﻿<Page x:Class="zayavkiNARemont.Pages.RequestsListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Список заявок"
+      Background="#F0F0F0">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <Border Grid.Row="0" Background="#2C3E50" Padding="15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnBack" Content="← НАЗАД" Background="#7F8C8D" Foreground="White"
+                        BorderThickness="0" Padding="15,8" Click="BtnBack_Click"
+                        Width="120" HorizontalAlignment="Left"/>
+                <TextBlock Text="СПИСОК ЗАЯВОК" FontSize="18" FontWeight="Bold" 
+                           Foreground="White" VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
+            </Grid>
+        </Border>
+
+        <!-- Панель фильтров -->
+        <Border Grid.Row="1" Background="White" BorderBrush="#DDD" BorderThickness="0,0,0,1" Padding="15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Поиск:" VerticalAlignment="Center" Margin="5"/>
+                <TextBox x:Name="tbSearch" Grid.Column="1" Height="30" Padding="5"/>
+
+                <TextBlock Grid.Column="2" Text="Статус:" VerticalAlignment="Center" Margin="15,0,5,0"/>
+                <ComboBox x:Name="cbStatus" Grid.Column="3" Height="30">
+                    <ComboBoxItem Content="Все"/>
+                    <ComboBoxItem Content="waiting"/>
+                    <ComboBoxItem Content="in_progress"/>
+                    <ComboBoxItem Content="completed"/>
+                    <ComboBoxItem Content="cancelled"/>
+                    <ComboBoxItem Content="need_parts"/>
+                </ComboBox>
+
+                <Button Grid.Column="7" x:Name="btnSearch" Content="НАЙТИ" 
+                        Background="#3498DB" Foreground="White" BorderThickness="0"
+                        Padding="20,8" Click="BtnSearch_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- Таблица заявок -->
+        <ListView x:Name="lvRequests" Grid.Row="2" Margin="15" 
+                  SelectionChanged="LvRequests_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="№ заявки" Width="100" DisplayMemberBinding="{Binding request_number}"/>
+                    <GridViewColumn Header="Дата" Width="120" DisplayMemberBinding="{Binding created_date}"/>
+                    <GridViewColumn Header="Оборудование" Width="120" DisplayMemberBinding="{Binding equipment_types.name}"/>
+                    <GridViewColumn Header="Неисправность" Width="120" DisplayMemberBinding="{Binding fault_types.name}"/>
+                    <GridViewColumn Header="Клиент" Width="150" DisplayMemberBinding="{Binding users.full_name}"/>
+                    <GridViewColumn Header="Исполнитель" Width="150" DisplayMemberBinding="{Binding users1.full_name}"/>
+                    <GridViewColumn Header="Статус" Width="120">
+                    </GridViewColumn>
+                    <GridViewColumn Header="Приоритет" Width="80" DisplayMemberBinding="{Binding priority}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Page>
